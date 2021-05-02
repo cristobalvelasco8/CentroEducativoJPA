@@ -22,19 +22,29 @@ public class Profesor implements Serializable {
 
 	private String apellido2;
 
+	private String colorfavorito;
+
 	private String direccion;
 
 	private String dni;
 
 	private String email;
 
+	@Lob
+	private byte[] imagen;
+
 	private String nombre;
 
 	private String telefono;
 
-	//bi-directional many-to-one association to Valoracionmateria
+	//bi-directional many-to-one association to Tipologiasexo
+	@ManyToOne
+	@JoinColumn(name="idTipologiaSexo")
+	private Tipologiasexo tipologiasexo;
+
+	//bi-directional many-to-one association to ValoracionMateria
 	@OneToMany(mappedBy="profesor")
-	private List<Valoracionmateria> valoracionmaterias;
+	private List<ValoracionMateria> valoracionmaterias;
 
 	public Profesor() {
 	}
@@ -63,6 +73,14 @@ public class Profesor implements Serializable {
 		this.apellido2 = apellido2;
 	}
 
+	public String getColorfavorito() {
+		return this.colorfavorito;
+	}
+
+	public void setColorfavorito(String colorfavorito) {
+		this.colorfavorito = colorfavorito;
+	}
+
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -87,6 +105,14 @@ public class Profesor implements Serializable {
 		this.email = email;
 	}
 
+	public byte[] getImagen() {
+		return this.imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
+	}
+
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -103,26 +129,40 @@ public class Profesor implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<Valoracionmateria> getValoracionmaterias() {
+	public Tipologiasexo getTipologiasexo() {
+		return this.tipologiasexo;
+	}
+
+	public void setTipologiasexo(Tipologiasexo tipologiasexo) {
+		this.tipologiasexo = tipologiasexo;
+	}
+
+	public List<ValoracionMateria> getValoracionmaterias() {
 		return this.valoracionmaterias;
 	}
 
-	public void setValoracionmaterias(List<Valoracionmateria> valoracionmaterias) {
+	public void setValoracionmaterias(List<ValoracionMateria> valoracionmaterias) {
 		this.valoracionmaterias = valoracionmaterias;
 	}
 
-	public Valoracionmateria addValoracionmateria(Valoracionmateria valoracionmateria) {
+	public ValoracionMateria addValoracionmateria(ValoracionMateria valoracionmateria) {
 		getValoracionmaterias().add(valoracionmateria);
 		valoracionmateria.setProfesor(this);
 
 		return valoracionmateria;
 	}
 
-	public Valoracionmateria removeValoracionmateria(Valoracionmateria valoracionmateria) {
+	public ValoracionMateria removeValoracionmateria(ValoracionMateria valoracionmateria) {
 		getValoracionmaterias().remove(valoracionmateria);
 		valoracionmateria.setProfesor(null);
 
 		return valoracionmateria;
 	}
+
+	@Override
+	public String toString() {
+		return nombre ;
+	}
+	
 
 }

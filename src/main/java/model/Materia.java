@@ -26,9 +26,9 @@ public class Materia implements Serializable {
 	@ManyToOne
 	private Curso curso;
 
-	//bi-directional many-to-one association to Valoracionmateria
+	//bi-directional many-to-one association to ValoracionMateria
 	@OneToMany(mappedBy="materia")
-	private List<Valoracionmateria> valoracionmaterias;
+	private List<ValoracionMateria> valoracionmaterias;
 
 	public Materia() {
 	}
@@ -65,26 +65,32 @@ public class Materia implements Serializable {
 		this.curso = curso;
 	}
 
-	public List<Valoracionmateria> getValoracionmaterias() {
+	public List<ValoracionMateria> getValoracionmaterias() {
 		return this.valoracionmaterias;
 	}
 
-	public void setValoracionmaterias(List<Valoracionmateria> valoracionmaterias) {
+	public void setValoracionmaterias(List<ValoracionMateria> valoracionmaterias) {
 		this.valoracionmaterias = valoracionmaterias;
 	}
 
-	public Valoracionmateria addValoracionmateria(Valoracionmateria valoracionmateria) {
+	public ValoracionMateria addValoracionmateria(ValoracionMateria valoracionmateria) {
 		getValoracionmaterias().add(valoracionmateria);
 		valoracionmateria.setMateria(this);
 
 		return valoracionmateria;
 	}
 
-	public Valoracionmateria removeValoracionmateria(Valoracionmateria valoracionmateria) {
+	public ValoracionMateria removeValoracionmateria(ValoracionMateria valoracionmateria) {
 		getValoracionmaterias().remove(valoracionmateria);
 		valoracionmateria.setMateria(null);
 
 		return valoracionmateria;
 	}
+
+	@Override
+	public String toString() {
+		return nombre ;
+	}
+	
 
 }
