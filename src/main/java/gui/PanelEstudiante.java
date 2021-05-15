@@ -144,7 +144,7 @@ public class PanelEstudiante extends JPanel {
 				this.p.setDireccion(this.actual.getDireccion());
 				this.p.setEmail(this.actual.getEmail());
 				this.p.setTelefono(this.actual.getTelefono());
-				this.p.setColor(this.actual.getColorfavorito());
+				this.p.setColor(this.actual.getColorFav());
 				
 				for (int i = 0; i < this.p.getJcbSexo().getItemCount(); i++) {
 	                if (this.actual.getTipologiasexo().getIdtipologiaSexo() == this.p.getJcbSexo().getItemAt(i).getIdtipologiaSexo()) {
@@ -171,7 +171,7 @@ public class PanelEstudiante extends JPanel {
 	        Tipologiasexo t = (Tipologiasexo) this.p.getJcbSexo().getSelectedItem();
 	        this.actual.setTipologiasexo(t);
 	        this.actual.setImagen(this.p.getImagen());
-	        this.actual.setColorfavorito(this.p.getColor());
+	        this.actual.setColorFav(this.p.getColor());
 	    }
 		
 		/**

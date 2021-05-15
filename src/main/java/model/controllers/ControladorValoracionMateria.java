@@ -1,9 +1,12 @@
 package model.controllers;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.JList;
 
 import model.Estudiante;
 import model.Materia;
@@ -27,7 +30,6 @@ public class ControladorValoracionMateria {
 		return instancia;
 	}
 	
-	
 	public ValoracionMateria findEstProfMat (Profesor profesor, Materia materia, Estudiante estudiante) {
 		ValoracionMateria resultado = null;
 		EntityManager em = factory.createEntityManager();
@@ -38,6 +40,25 @@ public class ControladorValoracionMateria {
 			q.setParameter(1, profesor.getId());
 			q.setParameter(2, materia.getId());
 			q.setParameter(3, estudiante.getId());
+			resultado = (ValoracionMateria) q.getSingleResult();
+		}
+		catch (Exception ex) {
+		}
+		em.close();
+		return resultado;
+	}
+	
+	
+	public ValoracionMateria findEstProfMatVal (Profesor profesor, Materia materia, Estudiante estudiante, Float nota) {
+		ValoracionMateria resultado = null;
+		EntityManager em = factory.createEntityManager();
+		 
+		try {
+			Query q = em.createNativeQuery("Select * from valoracionmateria where idProfesor = ? and idMateria = ? and idEstudiante = ? and valoracion = ?", ValoracionMateria.class);
+			q.setParameter(1, profesor.getId());
+			q.setParameter(2, materia.getId());
+			q.setParameter(3, estudiante.getId());
+			q.setParameter(4, nota);
 			resultado = (ValoracionMateria) q.getSingleResult();
 		}
 		catch (Exception ex) {
@@ -76,5 +97,32 @@ public class ControladorValoracionMateria {
 		em.remove(f);
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public Estudiante findSeleccionados (Materia m, Profesor p, Float nota) {
+
+		EntityManager em = factory.createEntityManager();
+		Estudiante resultado = null;
+
+		Query q = em.createNativeQuery("select * from centroeducativo.estudiante inner JOIN centroeducativo.valoracionMateria on centroeducativo.valoracionMateria.idProfesor = ? and centroeducativo.valoracionMateria.idMateria = ? and centroeducativo.valoracionMateria.valoracion = ? and centroeducativo.estudiante.id = centroeducativo.valoracionmateria.idEstudiante", ValoracionMateria.class);
+		q.setParameter(1, p.getId());
+		q.setParameter(2, m.getId());
+		q.setParameter(3, nota);
+		resultado = (Estudiante) q.getResultList();
+		em.close();
+		return resultado;
+	}
+	
+	public Estudiante findNoSeleccionados (Materia m, Profesor p, Float nota) {
+		EntityManager em = factory.createEntityManager();
+		Estudiante resultado = null;
+
+		Query q = em.createNativeQuery("select * from centroeducativo.estudiante inner JOIN centroeducativo.valoracionMateria on (centroeducativo.valoracionMateria.idProfesor != ? or centroeducativo.valoracionMateria.idMateria != ? or centroeducativo.valoracionMateria.valoracion != ?) and centroeducativo.estudiante.id = centroeducativo.valoracionmateria.idEstudiante group by estudiante.nombre;", ValoracionMateria.class);
+		q.setParameter(1, p.getId());
+		q.setParameter(2, m.getId());
+		q.setParameter(3, nota);
+		resultado = (Estudiante) q.getResultList();
+		em.close();
+		return resultado;
 	}
 }

@@ -24,7 +24,7 @@ public class ValoracionMateria implements Serializable {
 	@JoinColumn(name="idEstudiante")
 	private Estudiante estudiante;
 
-	//bi-directional many-to-one association to Materia
+	//bi-directional many-to-one association to materia
 	@ManyToOne
 	@JoinColumn(name="idMateria")
 	private Materia materia;

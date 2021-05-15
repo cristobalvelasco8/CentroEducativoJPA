@@ -7,8 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-
 import model.Estudiante;
+import model.Materia;
+import model.Profesor;
 
 public class ControladorEstudiante {
 
@@ -40,7 +41,7 @@ public class ControladorEstudiante {
 	 */
 	public Estudiante findPrimero () {
 		Estudiante e = null;
-	
+		
 		EntityManager em = factory.createEntityManager();
 		Query q = em.createNativeQuery("select * from centroeducativo.estudiante order by id limit 1", Estudiante.class);
 		e = (Estudiante) q.getSingleResult();
@@ -136,11 +137,12 @@ public class ControladorEstudiante {
 	public void borrar(Estudiante e) {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
-		e=em.merge(e);
+		e = em.merge(e);
 		em.remove(e);
 		em.getTransaction().commit();
 		em.close();
 	}
+
 	public List<Estudiante> findAll () {
 		EntityManager em = factory.createEntityManager();
 		
@@ -150,6 +152,7 @@ public class ControladorEstudiante {
 		em.close();
 		return list;
 	}
+	
 
 	
 	
